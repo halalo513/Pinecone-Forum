@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>{% block title %}
+
+  {% endblock %}</title>
+  {% block head %}
+
+  {% endblock %}
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js"
+            integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+            crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"
+          integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN"
+          crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/init.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='bootstrap/bootstrap@4.6.min.css') }}">
+  <script src="{{ url_for('static', filename='bootstrap/bootstrap@4.6.min.js') }}"></script>
+  <script src="{{ url_for('static', filename='js/jquery/jqury@3.6.min.js') }}"></script>
+  <link rel="icon" href="{{ url_for('static', filename='img/favicon.ico') }}">
+</head>
+<body>
+
+<nav class="navbar navbar-expand-lg navbar-light" style="background-color: #d09c26;">
+  <div class="container">
+    <a class="navbar-brand" href="#">松果论坛</a>
+
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav mr-auto">
+        <li class="nav-item active">
+          <a class="nav-link" href="{{ url_for('QA.index') }}">首页 <span class="sr-only">(current)</span></a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{{ url_for('QA.release') }}">发布问答</a>
+        </li>
+        <li class="nav-item ml-3">
+          <form class="form-inline my-2 my-lg-0" method="POST" action="{{ url_for('QA.search') }}">
+            <input class="form-control mr-sm-2" type="search" placeholder="关键字" aria-label="Search" name="q">
+            <button class="btn btn-outline-primary my-2 my-sm-0" type="submit">搜索</button>
+          </form>
+        </li>
+      </ul>
+      <ul class="navbar-nav">
+        {% if user %}
+          <li class="nav-item">
+            <a class="nav-link" href="{{ url_for('QA.center') }}">{{ user.username }}</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{{ url_for('user.logout') }}">退出登录</a>
+          </li>
+        {% else %}
+          <li class="nav-item">
+            <a class="nav-link" href="{{ url_for('user.login') }}">登录</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{{ url_for('user.register') }}">注册</a>
+          </li>
+        {% endif %}
+
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<div class="container">
+  {% block body %}
+
+  {% endblock %}
+</div>
+</body>
+</html>

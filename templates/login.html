@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+{% block title %}
+  松果论坛-登录
+{% endblock %}
+{% block head %}
+
+{% endblock %}
+{% block body %}
+  <div class="row mt-3">
+    <div class="col">
+    </div>
+    <div class="col">
+      <form method="post" action="{{ url_for('user.login') }}">
+        <div class="form-group">
+          <label for="exampleInputEmail1">邮箱</label>
+          <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" name="email">
+        </div>
+        <div class="form-group">
+          <label for="exampleInputPassword1">密码</label>
+          <input type="password" class="form-control" id="exampleInputPassword1" name="password">
+        </div>
+        {% for message in get_flashed_messages() %}
+          <div class="form-group">
+            <div class="alert alert-danger" role="alert">
+              {{ message }}
+            </div>
+          </div>
+        {% endfor %}
+        <div class="form-group">
+          <button type="submit" class="btn btn-primary btn-block">立即登录</button>
+        </div>
+      </form>
+    </div>
+    <div class="col">
+    </div>
+  </div>
+{% endblock %}

@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+{% block title %}
+  松果论坛首页
+{% endblock %}
+{% block head %}
+
+{% endblock %}
+{% block body %}
+  <div class="row mt-4">
+    <div class="col">
+    </div>
+    <div class="col-10">
+      <ul class="list-unstyled">
+        {% for question in questions %}
+          <li class="media bg-white rounded my-1 pt-2 border border-info">
+
+            <img src="{{ url_for('static', filename='img/avatars/'+question.author.extend.avatar_name) }}"
+                 class="mr-1 ml-1 mt-2" alt="..." width="64px"
+                 height="64px">
+            <div class="media-body ml-3">
+              <h5 class="mt-0 mb-0"><a href="{{ url_for('QA.detail', question_id=question.id) }}"
+                                       class="text-success">{{ question.title }}</a></h5>
+              <p class="">
+                <a href="{{ url_for('QA.detail', question_id=question.id) }}"
+                   class="text-dark">{{ question.content|truncate(length=100) }}</a>
+              </p>
+              <p style="text-align: right" class="text-muted mr-2"><span
+                      class="mr-2">{{ question.author.username }}</span>{{ question.create_time }}</p>
+            </div>
+          </li>
+        {% endfor %}
+
+
+      </ul>
+    </div>
+    <div class="col">
+    </div>
+  </div>
+{% endblock %}

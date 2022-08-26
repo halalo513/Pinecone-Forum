@@ -1,0 +1,197 @@
+{% extends "base.html" %}
+{% block title %}
+  个人中心
+{% endblock %}
+{% block head %}
+  <script src="{{ url_for('static', filename='js/jquery/jqury@3.6.min.js') }}"></script>
+  <script src="{{ url_for('static', filename='js/alter.js') }}"></script>
+  <script src="{{ url_for('static', filename='js/upload.js') }}"></script>
+  <script src="{{ url_for("static", filename="js/echarts.min.js") }}"></script>
+{#  <script type="text/javascript" src="https://assets.pyecharts.org/assets/echarts-wordcloud.min.js"></script>#}
+  <script type="text/javascript" src="{{ url_for('static', filename='js/echarts-wordcloud.min.js') }}"></script>
+{% endblock %}
+{% block body %}
+  <div class="row mt-3">
+    <div class="col"></div>
+    <div class="col-8">
+      <img src="{{ url_for('static', filename='img/avatars/'+user.extend.avatar_name) }}"
+           style="width: 100px"
+           class="rounded-circle mx-auto d-block" alt="...">
+      <p class="text-info"
+         style="text-align: center; font-size: large">{{ user.extend.signature|default('此人很懒，没有留下任何说明', boolean=True) }}</p>
+    </div>
+    <div class="col"></div>
+  </div>
+  <div class="row mt-3">
+    <div class="col"></div>
+    <div class="col-8">
+      <div class="row">
+        <div class="col-3">
+          <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+            <a class="nav-link active" id="v-pills-home-tab" data-toggle="pill" href="#v-pills-home" role="tab"
+               aria-controls="v-pills-home" aria-selected="true">基本信息</a>
+            <a class="nav-link" id="v-pills-profile-tab" data-toggle="pill" href="#v-pills-profile" role="tab"
+               aria-controls="v-pills-profile" aria-selected="false">修改信息</a>
+            <a class="nav-link" id="v-pills-profile2-tab" data-toggle="pill" href="#v-pills-profile2" role="tab"
+               aria-controls="v-pills-profile" aria-selected="false">设置头像</a>
+            <a class="nav-link" id="v-pills-messages-tab" data-toggle="pill" href="#v-pills-messages" role="tab"
+               aria-controls="v-pills-messages" aria-selected="false">我的提问</a>
+            <a class="nav-link" id="v-pills-messages-tab" data-toggle="pill" href="#v-pills-messages2" role="tab"
+               aria-controls="v-pills-messages" aria-selected="false">数据统计</a>
+          </div>
+        </div>
+        <div class="col-9">
+          <div class="tab-content" id="v-pills-tabContent">
+            <div class="tab-pane fade show active" id="v-pills-home" role="tabpanel" aria-labelledby="v-pills-home-tab">
+              <ul class="list-group">
+                <li class="list-group-item">用户昵称：{{ user.username }}</li>
+                <li class="list-group-item">电子邮箱：{{ user.email }}</li>
+                <li class="list-group-item">个性签名：{{ user.extend.signature|default('此人很懒，没有留下任何说明', boolean=True) }}</li>
+                <li class="list-group-item">注册时间：{{ user.join_time }}</li>
+              </ul>
+            </div>
+            <div class="tab-pane fade" id="v-pills-profile" role="tabpanel" aria-labelledby="v-pills-profile-tab">
+              <div class="row">
+                <div class="col"></div>
+                <div class="col-8">
+                  <div class="form-group">
+                    <label for="exampleInputEmail1">我的昵称</label>
+                    <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp"
+                           name="new_username" placeholder="{{ user.username }}">
+                  </div>
+                  <div class="form-group">
+                    <label for="exampleInputPassword1">我的密码</label>
+                    <input type="password" class="form-control" id="exampleInputPassword1" name="new_password"
+                           placeholder="请输入新密码">
+                  </div>
+                  <div class="form-group">
+                    <label for="exampleInputPassword1">个性签名</label>
+                    <textarea class="form-control" cols="30" id="new_signature" name="new_signature"
+                              placeholder="{{ user.extend.signature }}"></textarea>
+                  </div>
+                  <div class="form-group">
+                    <input type="submit" class="form-control bg-success text-white" id="alter_btn" value="确认修改">
+                  </div>
+                </div>
+                <div class="col"></div>
+              </div>
+            </div>
+            <div class="tab-pane fade" id="v-pills-profile2" role="tabpanel" aria-labelledby="v-pills-profile2-tab">
+              <div class="row">
+                <div class="col"></div>
+                <div class="col-8">
+                  <div class="form-group" style="text-align: center">
+                    <label for="exampleFormControlFile1" class="font-weight-bold"
+                           style="font-size: larger">设置头像</label>
+                    <input type="file" class="form-control-file mt-2 mb-4" id="upload_files" name="avatar">
+                    <input type="submit" id="upload_btn" class="form-control bg-success text-white" value="立即上传">
+                  </div>
+                </div>
+                <div class="col"></div>
+              </div>
+            </div>
+            <div class="tab-pane fade" id="v-pills-messages" role="tabpanel" aria-labelledby="v-pills-messages-tab">
+              <ul class="list-group">
+                {% for question in user.questions %}
+                  <li class="list-group-item d-flex justify-content-between align-items-center">
+                    <a href="{{ url_for('QA.detail', question_id=question.id) }}">{{ question.title }}</a>
+                    <span class="badge badge-primary badge-pill">评论数{{ question.answers|length }}</span>
+                  </li>
+                {% endfor %}
+              </ul>
+            </div>
+            <div class="tab-pane fade" id="v-pills-messages2" role="tabpanel" aria-labelledby="v-pills-messages-tab">
+              <nav>
+                <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                  <a class="nav-link active" id="nav-home-tab" data-toggle="tab" href="#nav-home" role="tab"
+                     aria-controls="nav-home" aria-selected="true">问答统计</a>
+                  <a class="nav-link" id="nav-profile-tab" data-toggle="tab" href="#nav-profile" role="tab"
+                     aria-controls="nav-profile" aria-selected="false">词云图</a>
+                  <a class="nav-link" id="nav-contact-tab" data-toggle="tab" href="#nav-contact" role="tab"
+                     aria-controls="nav-contact" aria-selected="false">表格</a>
+                </div>
+              </nav>
+              <div class="tab-content" id="nav-tabContent">
+                <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
+                  <div class="row">
+                    <div class="col"></div>
+                    <div class="col-10 mt-4">
+                      <div id="main1" style="width: 600px;height: 400px"></div>
+                      <script type="text/javascript">
+                          // 根据dom初始化echarts实例
+                          var myChart1 = echarts.init(document.getElementById("main1"));
+                          // 指定图标的配置项和数据
+                          var option1 ={{ bar_option|safe }};
+                          //显示图表
+                          myChart1.setOption(option1);
+                      </script>
+                    </div>
+                    <div class="col"></div>
+                  </div>
+
+                </div>
+                <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
+                  <div class="row">
+                    <div id="main2" style="width: 600px;height: 400px"></div>
+                    <script type="text/javascript">
+                        // 根据dom初始化echarts实例
+                        var myChart2 = echarts.init(document.getElementById("main2"));
+                        // 指定图标的配置项和数据
+                        var option2 ={{ wordcloud_option|safe }};
+                        //显示图表
+                        myChart2.setOption(option2);
+                    </script>
+                  </div>
+                </div>
+                <div class="tab-pane fade" id="nav-contact" role="tabpanel" aria-labelledby="nav-contact-tab">
+                  <div class="table-responsive-sm">
+                    <table class="table table-hover table-active table-info mt-4">
+                      <thead>
+                      <tr>
+                        <th scope="col">我的问题</th>
+                        <th scope="col">网友回答</th>
+                        <th scope="col">网友昵称</th>
+                        <th scope="col">回答时间</th>
+                      </tr>
+                      </thead>
+                      <tbody>
+                      {% for qustion in user.questions %}
+                        {% for answer in qustion.answers %}
+                          <tr>
+                            <td>{{ qustion.title }}</td>
+                            <td>{{ answer.content|truncate(length=20) }}</td>
+                            <td>{{ answer.author.username }}</td>
+                            <td>{{ answer.create_time|to_date }}</td>
+                          </tr>
+                        {% endfor %}
+                      {% endfor %}
+                      </tbody>
+                    </table>
+                  </div>
+
+                </div>
+              </div>
+              <script>
+                  $(function () {
+                      $('#myTab a').on('click', function (event) {
+                          event.preventDefault()
+                          $(this).tab('show')
+                      })
+                  })
+              </script>
+            </div>
+          </div>
+        </div>
+      </div>
+      <script>
+          $(function () {
+              $('#myTab a').on('click', function (event) {
+                  event.preventDefault()
+                  $(this).tab('show')
+              })
+          })
+      </script>
+    </div>
+    <div class="col"></div>
+  </div>
+{% endblock %}

@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% block title %}
+  发布问答
+{% endblock %}
+{% block head %}
+
+{% endblock %}
+{% block body %}
+  <div class="row mt-3">
+    <div class="col">
+    </div>
+    <div class="col-8">
+      <h1 style="text-align: center">发布问答</h1>
+      <form action="{{ url_for('QA.release') }}" method="POST">
+        <div class="form-group">
+          <input type="text" name="title" class="form-control" placeholder="请输入标题">
+        </div>
+        <div class="form-group">
+          <textarea name="content" id="" rows="10" class="form-control" placeholder="请输入内容"></textarea>
+        </div>
+        {% for message in get_flashed_messages() %}
+          <div class="form-group">
+            <div class="alert alert-danger" role="alert">
+              {{ message }}
+            </div>
+          </div>
+        {% endfor %}
+        <div class="form-group" style="text-align: right">
+          <button class="btn btn-primary">发布</button>
+        </div>
+      </form>
+    </div>
+    <div class="col">
+    </div>
+  </div>
+{% endblock %}
