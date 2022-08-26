@@ -5,13 +5,13 @@
 在原来课程项目的框架下，添加了个人中心功能，在个人中心可以完成个人基本信息的修改、头像上传、查看图表统计等功能。  
 项目截图如下：  
 1. 首页  
-![](/show/index.jpeg)  
+![](./show/index.jpeg)  
 2. 发布问答  
-![](/show/release.png)  
+![](./show/release.png)  
 3. 评论回复  
-![](/show/answer.png)  
+![](./show/answer.png)  
 4. 个人中心  
-![](/show/center.png)
+![](./show/center.png)
 ### 二、技术简介
 &emsp;&emsp;项目主体采用的是Flask框架，后台用到了蓝图技术和jinja2模板。数据库使用的是MYSQL5.7和Redis5，MYSQL存储项目运行的用户数据，Redis用来存储邮箱验证码。
 ### 三、主要文件
