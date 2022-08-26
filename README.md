@@ -9,7 +9,7 @@
 2. 发布问答  
 ![](./show/release.png)  
 3. 评论回复  
-![](./show/answer.png)  
+[![v2TQ29.md.png](https://s1.ax1x.com/2022/08/26/v2TQ29.md.png)](https://imgse.com/i/v2TQ29)  
 4. 个人中心  
 ![](./show/center.png)
 ### 二、技术简介
